@@ -1,52 +1,86 @@
 import { useState } from "react";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import { useNavigate, useLocation } from "react-router";
+import { Button } from "@mui/joy";
 
 export default function Header() {
   const [activeLink, setActiveLink] = useState("");
   const navigate = useNavigate();
-  const goToHome = () => {
-    navigate("/");
-  };
   const location = useLocation();
-  const currentPath = location.pathname;
-  const isHomePage = currentPath === "/";
 
+  const isHomePage = location.pathname === "/";
   const navList = ["home", "about"];
 
+  const goToHome = () => {
+    if (!isHomePage) navigate("/");
+  };
+
   return (
-    <div className="flex flex-row items-center justify-between p-4 w-full top-0 fixed z-50 bg-slate-900/80 backdrop-blur-md">
-      <div className="flex items-center">
-        <Link
+    <header className="fixed top-0 z-50 w-full bg-slate-900/80 backdrop-blur-md">
+      <div className="flex items-center justify-between px-6 py-3 max-w-screen-xl mx-auto">
+        {/* Left - Logo */}
+        <ScrollLink
           to="home"
-          className={`text-2xl font-title text-white cursor-pointer hover:scale-105 transition-all ${activeLink === "home" ? "text-blue-500" : ""}`}
-          onClick={() => {
-            if(!isHomePage) {
-              goToHome();
-            }
-          }}
+          smooth={true}
+          className="text-xl font-bold text-white cursor-pointer hover:text-blue-500"
+          onClick={goToHome}
         >
           Marketplace
-        </Link>
-      </div>
-      <div className="flex items-center">
+        </ScrollLink>
+
+        {/* Center - Nav links */}
         <nav>
-          <ul className="flex space-x-4">
+          <ul className="flex items-center gap-6">
             {navList.map((item) => (
               <li key={item}>
-                <Link
+                <ScrollLink
                   to={item}
                   smooth={true}
-                  className={`text-lg font-title text-white cursor-pointer hover:scale-105 transition-all ${activeLink === item ? "text-blue-500" : ""}`}
+                  spy={true}
+                  className={`text-base font-medium text-white px-2 py-1 cursor-pointer hover:text-blue-500 transition-all ${
+                    activeLink === item ? "text-blue-500" : ""
+                  }`}
                   onSetActive={() => setActiveLink(item)}
+                  onClick={() => {
+                    if (isHomePage) {
+                      setActiveLink(item);
+                    } else {
+                      navigate("/");
+                      setActiveLink(item);
+                    }
+                  }}
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
-                </Link>
+                </ScrollLink>
               </li>
             ))}
+
+            {/* Right - Auth buttons */}
+            <li>
+              <Button
+                variant="soft"
+                size="md"
+                color="primary"
+                className="font-medium leading-none px-4 hover:cursor-pointer hobver:bg-blue-500"
+                onClick={() => navigate("/register")}
+              >
+                Sign Up
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant="solid"
+                size="md"
+                color="primary"
+                className="font-medium leading-none px-4"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>
+            </li>
           </ul>
         </nav>
       </div>
-    </div>
+    </header>
   );
 }
