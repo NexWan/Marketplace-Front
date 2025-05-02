@@ -12,6 +12,8 @@ import Header from "./components/header";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { useAuthStore } from "./stores/useAuthStore";
+import { useEffect } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -56,6 +58,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const queryClient = new QueryClient();
+  const fetchUser = useAuthStore((state) => state.fetchUser);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />

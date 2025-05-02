@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { useNavigate, useLocation } from "react-router";
-import { Button } from "@mui/joy";
+import { Avatar, Button, Dropdown, IconButton, Menu, MenuButton, MenuItem } from "@mui/joy";
+import { useAuthStore } from "~/stores/useAuthStore";
 
 export default function Header() {
   const [activeLink, setActiveLink] = useState("");
@@ -14,6 +15,8 @@ export default function Header() {
   const goToHome = () => {
     if (!isHomePage) navigate("/");
   };
+
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   return (
     <header className="fixed top-0 z-50 w-full bg-slate-900/80 backdrop-blur-md">
@@ -55,29 +58,66 @@ export default function Header() {
               </li>
             ))}
 
-            {/* Right - Auth buttons */}
-            <li>
-              <Button
-                variant="soft"
-                size="md"
-                color="primary"
-                className="font-medium leading-none px-4 hover:cursor-pointer hobver:bg-blue-500"
-                onClick={() => navigate("/register")}
-              >
-                Sign Up
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant="solid"
-                size="md"
-                color="primary"
-                className="font-medium leading-none px-4"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </Button>
-            </li>
+            {isAuthenticated && (
+              <>
+                <li>
+                  <Button
+                    variant="soft"
+                    size="md"
+                    color="primary"
+                    className="font-medium leading-none px-4 hover:cursor-pointer hobver:bg-blue-500"
+                    onClick={() => navigate("/market")}
+                  >
+                    Visit Marketplace
+                  </Button>
+                </li>
+                <li>
+                  <Dropdown>
+                    <MenuButton slots={{root: IconButton}} >
+                      <Avatar
+                        className="w-8 h-8"
+                        variant="soft"
+                        color="neutral"
+                      />
+                    </MenuButton>
+                    <Menu>
+                      <MenuItem>
+                        My Profile
+                      </MenuItem>
+                      <MenuItem>
+                        My Orders
+                      </MenuItem>
+                    </Menu>
+                  </Dropdown>
+                </li>
+              </>
+            )}
+            {!isAuthenticated && (
+              <>
+                <li>
+                  <Button
+                    variant="soft"
+                    size="md"
+                    color="primary"
+                    className="font-medium leading-none px-4 hover:cursor-pointer hover:bg-blue-500"
+                    onClick={() => navigate("/register")}
+                  >
+                    Sign Up
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    variant="solid"
+                    size="md"
+                    color="primary"
+                    className="font-medium leading-none px-4"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </Button>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
