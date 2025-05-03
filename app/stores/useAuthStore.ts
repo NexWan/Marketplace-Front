@@ -4,6 +4,7 @@ type User = {
   id: string;
   username: string;
   role: string;
+  email: string;
 };
 
 type AuthState = {
@@ -33,12 +34,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   fetchUser: async () => {
     set({ isLoading: true });
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+      const user = await (await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
         credentials: "include",
-      });
-      if (!res.ok) throw new Error("Not authenticated");
-      const data = await res.json();
-      set({ user: data.user, isAuthenticated: true, isLoading: false });
+      })).json();
+  
+      set({ user, isAuthenticated: true, isLoading: false });
     } catch {
       set({ user: null, isAuthenticated: false, isLoading: false });
     }

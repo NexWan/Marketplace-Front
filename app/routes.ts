@@ -5,4 +5,5 @@ export default [
     route("market","routes/marketplace.tsx"),
     route("register","routes/register.tsx"),
     route("login","routes/login.tsx"),
+    route("myprofile","routes/profile.tsx"),
 ] satisfies RouteConfig;

@@ -5,6 +5,7 @@ type RegisterPayload = {
     email: string;
     password: string;
     role: string;
+    profilePicture?: string;
 }
 
 export function useRegister() {

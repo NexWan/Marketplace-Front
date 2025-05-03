@@ -25,7 +25,7 @@ export default function Marketplace() {
         return (
             <div className="flex flex-col items-center justify-center h-screen bg-gray-100"> 
             <Alert color="danger" className="mt-4">
-                Error, user not authenticated, please login or register.
+                User not authenticated, please login or register.
             </Alert>
             </div>
         );

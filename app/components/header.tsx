@@ -81,11 +81,14 @@ export default function Header() {
                       />
                     </MenuButton>
                     <Menu>
-                      <MenuItem>
+                      <MenuItem onClick={() => navigate("/myprofile")}>
                         My Profile
                       </MenuItem>
                       <MenuItem>
                         My Orders
+                      </MenuItem>
+                      <MenuItem onClick = {() => logout()}>
+                        Logout
                       </MenuItem>
                     </Menu>
                   </Dropdown>
@@ -99,7 +102,7 @@ export default function Header() {
                     variant="soft"
                     size="md"
                     color="primary"
-                    className="font-medium leading-none px-4 hover:cursor-pointer hover:bg-blue-500"
+                    className="font-medium leading-none px-4"
                     onClick={() => navigate("/register")}
                   >
                     Sign Up
